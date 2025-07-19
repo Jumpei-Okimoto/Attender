@@ -410,24 +410,21 @@
                 <h1>席確保画面</h1>
             </div>
 
-            <div class="nfc-icon">📱</div>
-            
+
             <button id="scanButton" class="scan-button">
                 NFCタグをスキャン
             </button>
-            
+        
             <div id="status" class="status info">
                 NFCタグを読み取る準備ができています
             </div>
             
             <div id="dataDisplay" class="data-display" style="display: none;">
-                <h3>読み取りデータ:</h3>
-                <div id="dataContent" class="data-content"></div>
-            </div>
+                <button class="btn btn-success nfc-button" onclick="showMeetup()">
+                    📱 メンバーに席を通知する
+                </button>
+             </div>
 
-            <button class="btn btn-success nfc-button" onclick="showMeetup()">
-                📱 席に着いたらNFCタグにタッチ
-            </button>
 
             <div class="member-list">
                 <h3>参加メンバー</h3>
@@ -449,10 +446,7 @@
             
             <div class="location-info">
                 <div class="location-text" id="meetup-location">
-                    <div id="dataDisplay" class="data-display" style="display: none;">
-                        テーブル 
-                        <div id="dataContent" class="data-content"></div>
-                    </div>
+                    <div id="dataContent" class="data-content"></div>
                 </div>
 
                 <div class="map-container">
@@ -704,8 +698,7 @@
 
             displayData(data, type) {
                 this.dataContent.innerHTML = `
-                    <strong>タイプ:</strong> ${type}<br>
-                    <strong>データ:</strong><br>
+                    <strong>テーブル: </strong><br>
                     ${this.escapeHtml(data)}
                 `;
                 this.dataDisplay.style.display = 'block';
@@ -750,36 +743,36 @@
             });
         }
 
-        // NFC シミュレーション
-        function simulateNFC() {
-            const room = appState.rooms[appState.currentRoom];
-            if (!room) return;
+        // // NFC シミュレーション
+        // function simulateNFC() {
+        //     const room = appState.rooms[appState.currentRoom];
+        //     if (!room) return;
             
-            // テーブル番号をランダムに生成
-            const tableAreas = ['A', 'B', 'C', 'D'];
-            const tableNumber = Math.floor(Math.random() * 20) + 1;
-            const location = `テーブル ${tableAreas[Math.floor(Math.random() * tableAreas.length)]}-${tableNumber}`;
+        //     // テーブル番号をランダムに生成
+        //     const tableAreas = ['A', 'B', 'C', 'D'];
+        //     const tableNumber = Math.floor(Math.random() * 20) + 1;
+        //     const location = `テーブル ${tableAreas[Math.floor(Math.random() * tableAreas.length)]}-${tableNumber}`;
             
-            // 現在のユーザーを準備完了にする
-            const currentMember = room.members.find(m => m.name === appState.currentUser);
-            if (currentMember) {
-                currentMember.ready = true;
-            }
+        //     // 現在のユーザーを準備完了にする
+        //     const currentMember = room.members.find(m => m.name === appState.currentUser);
+        //     if (currentMember) {
+        //         currentMember.ready = true;
+        //     }
             
-            // 合流場所を設定
-            room.location = location;
+        //     // 合流場所を設定
+        //     room.location = location;
             
-            // 合流完了画面を表示
-            document.getElementById('meetup-location').textContent = location;
-            updateFinalMembersList();
-            drawLocationMap(location);
-            showMeetup();
+        //     // 合流完了画面を表示
+        //     document.getElementById('meetup-location').textContent = location;
+        //     updateFinalMembersList();
+        //     drawLocationMap(location);
+        //     showMeetup();
             
-            // 他のメンバーに通知（実際の実装では WebSocket や Push API を使用）
-            setTimeout(() => {
-                showNotification(`${appState.currentUser}さんが席を確保しました！\n場所: ${location}`);
-            }, 500);
-        }
+        //     // 他のメンバーに通知（実際の実装では WebSocket や Push API を使用）
+        //     setTimeout(() => {
+        //         showNotification(`${appState.currentUser}さんが席を確保しました！\n場所: ${location}`);
+        //     }, 500);
+        // }
         
         // 最終メンバーリスト更新
         function updateFinalMembersList() {
