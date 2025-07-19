@@ -114,7 +114,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             border: 1px solid #e9ecef;
-            text-align: left;
+            text-align: center;
         }
 
         .data-display h3 {
@@ -412,7 +412,7 @@
 
 
             <button id="scanButton" class="scan-button">
-                NFCタグをスキャン
+                席に着いたらNFCタグをスキャン
             </button>
         
             <div id="status" class="status info">
@@ -424,6 +424,10 @@
                     📱 メンバーに席を通知する
                 </button>
              </div>
+
+            <!-- <div class="location-text" id="meetup-location">
+                <div id="dataContent" class="data-content"></div>
+            </div> -->
 
 
             <div class="member-list">
@@ -591,7 +595,7 @@
                 if ('NDEFReader' in window) {
                     this.showStatus('Web NFC API対応ブラウザです', 'success');
                 } else {
-                    this.showStatus('このブラウザはWeb NFC APIに対応していません', 'warning');
+                    this.showStatus('このブラウザはWeb NFC APIに対応していません。', 'warning');
                 }
             }
 
@@ -666,7 +670,7 @@
                 const userInput = prompt('NFCタグの内容を手動で入力してください:');
                 if (userInput) {
                     this.displayData(userInput, 'text');
-                    this.showStatus('データを表示しました', 'success');
+                    this.showStatus('テーブル番号を読み取りました', 'success');
                 } else {
                     this.showStatus('入力がキャンセルされました', 'warning');
                 }
@@ -698,7 +702,7 @@
 
             displayData(data, type) {
                 this.dataContent.innerHTML = `
-                    <strong>テーブル: </strong><br>
+                    <strong>テーブル:</strong>
                     ${this.escapeHtml(data)}
                 `;
                 this.dataDisplay.style.display = 'block';
@@ -743,36 +747,6 @@
             });
         }
 
-        // // NFC シミュレーション
-        // function simulateNFC() {
-        //     const room = appState.rooms[appState.currentRoom];
-        //     if (!room) return;
-            
-        //     // テーブル番号をランダムに生成
-        //     const tableAreas = ['A', 'B', 'C', 'D'];
-        //     const tableNumber = Math.floor(Math.random() * 20) + 1;
-        //     const location = `テーブル ${tableAreas[Math.floor(Math.random() * tableAreas.length)]}-${tableNumber}`;
-            
-        //     // 現在のユーザーを準備完了にする
-        //     const currentMember = room.members.find(m => m.name === appState.currentUser);
-        //     if (currentMember) {
-        //         currentMember.ready = true;
-        //     }
-            
-        //     // 合流場所を設定
-        //     room.location = location;
-            
-        //     // 合流完了画面を表示
-        //     document.getElementById('meetup-location').textContent = location;
-        //     updateFinalMembersList();
-        //     drawLocationMap(location);
-        //     showMeetup();
-            
-        //     // 他のメンバーに通知（実際の実装では WebSocket や Push API を使用）
-        //     setTimeout(() => {
-        //         showNotification(`${appState.currentUser}さんが席を確保しました！\n場所: ${location}`);
-        //     }, 500);
-        // }
         
         // 最終メンバーリスト更新
         function updateFinalMembersList() {
