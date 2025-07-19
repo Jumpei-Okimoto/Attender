@@ -201,6 +201,16 @@
         .screen.active {
             display: block;
         }
+
+        .data-display {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            text-align: left;
+        }
+
         
         .loading {
             display: inline-block;
@@ -296,8 +306,10 @@
             
             <div class="location-info">
                 <div class="location-text" id="meetup-location">
-                    テーブル 
-                    <div id="dataContent" class="data-content"></div>
+                    <div id="dataDisplay" class="data-display" style="display: none;">
+                        テーブル 
+                        <div id="dataContent" class="data-content"></div>
+                    </div>
                 </div>
 
                 <div class="map-container">
