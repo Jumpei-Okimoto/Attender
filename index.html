@@ -407,22 +407,10 @@
         <!-- 待機画面 -->
         <div id="waiting-screen" class="screen">
             <div class="header">
-                <h1>グループメンバー追加</h1>
+                <h1>席確保画面</h1>
             </div>
-        
-            <div class="member-list">
-                <h3>参加メンバー</h3>
-                <div id="members-list">
-                    <!-- メンバーリストがここに表示される -->
-                </div>
-            </div>
-            
-            <button class="btn btn-success nfc-button" onclick="showMeetup()">
-                📱 席に着いたらNFCタグにタッチ
-            </button>
 
             <div class="nfc-icon">📱</div>
-            <h1>NFCタグリーダー</h1>
             
             <button id="scanButton" class="scan-button">
                 NFCタグをスキャン
@@ -436,13 +424,18 @@
                 <h3>読み取りデータ:</h3>
                 <div id="dataContent" class="data-content"></div>
             </div>
-    
-            <div class="support-info">
-                <strong>対応ブラウザ:</strong><br>
-                • Android: Chrome 89+<br>
-                • iPhone: iOS 13+ Safari (Core NFC対応)
+
+            <button class="btn btn-success nfc-button" onclick="showMeetup()">
+                📱 席に着いたらNFCタグにタッチ
+            </button>
+
+            <div class="member-list">
+                <h3>参加メンバー</h3>
+                <div id="members-list">
+                    <!-- メンバーリストがここに表示される -->
+                </div>
             </div>
-            
+
             <button class="btn btn-secondary" onclick="leaveRoom()">
                 グループから退出
             </button>
