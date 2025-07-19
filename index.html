@@ -336,7 +336,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             border: 1px solid #e9ecef;
-            text-align: left;
+            text-align: center;
         }
 
         
@@ -398,7 +398,7 @@
                 <input type="text" id="creator-name" placeholder="例：田中">
             </div>
 
-            <button class="btn" onclick="showWaiting()">
+            <button class="btn" onclick="createRoom()">
                 グループに参加
             </button>
 
@@ -412,7 +412,7 @@
 
 
             <button id="scanButton" class="scan-button">
-                席に着いたらNFCタグをスキャン
+                席についたらNFCタグをスキャン
             </button>
         
             <div id="status" class="status info">
@@ -498,7 +498,6 @@
         
         function showWaiting() {
             showScreen('waiting-screen');
-            createRoom();
         }
             
         function showMeetup() {
@@ -544,9 +543,10 @@
             appState.currentUser = creatorName;
             appState.isCreator = true;
             
-            updateWaitingScreen();
+            // updateWaitingScreen();
+            //showNotification('グループが作成されました！');
             showWaiting();
-            showNotification('グループが作成されました！');
+            updateWaitingScreen();
         }
         
         // 待機画面の更新
@@ -554,10 +554,10 @@
             const room = appState.rooms[appState.currentRoom];
             if (!room) return;
             
-            document.getElementById('display-room-code').textContent = room.code;
+            //document.getElementById('display-room-code').textContent = room.code;
             
             // QRコード生成
-            generateQRCode(room.code);
+            //generateQRCode(room.code);
             
             const membersList = document.getElementById('members-list');
             membersList.innerHTML = '';
@@ -627,7 +627,7 @@
                 } finally {
                     this.isScanning = false;
                     this.scanButton.disabled = false;
-                    this.scanButton.innerHTML = 'NFCタグをスキャン';
+                    this.scanButton.innerHTML = '席についたらNFCタグをスキャン';
                     this.scanButton.classList.remove('pulse');
                 }
             }
@@ -799,58 +799,58 @@
             }, 4000);
         }
         
-        // QRコード生成（シンプルな実装）
-        function generateQRCode(text) {
-            const canvas = document.getElementById('qr-code');
-            const ctx = canvas.getContext('2d');
+        // // QRコード生成（シンプルな実装）
+        // function generateQRCode(text) {
+        //     const canvas = document.getElementById('qr-code');
+        //     const ctx = canvas.getContext('2d');
             
-            // キャンバスをクリア
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //     // キャンバスをクリア
+        //     ctx.fillStyle = '#ffffff';
+        //     ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // シンプルなQRコード風の表示（実際のQRコードではありません）
-            const size = 8;
-            const modules = 25;
-            const offset = (canvas.width - modules * size) / 2;
+        //     // シンプルなQRコード風の表示（実際のQRコードではありません）
+        //     const size = 8;
+        //     const modules = 25;
+        //     const offset = (canvas.width - modules * size) / 2;
             
-            // ランダムパターンでQRコード風に表示
-            const seed = text.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-            let random = seed;
+        //     // ランダムパターンでQRコード風に表示
+        //     const seed = text.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        //     let random = seed;
             
-            function pseudoRandom() {
-                random = (random * 9301 + 49297) % 233280;
-                return random / 233280;
-            }
+        //     function pseudoRandom() {
+        //         random = (random * 9301 + 49297) % 233280;
+        //         return random / 233280;
+        //     }
             
-            ctx.fillStyle = '#000000';
+        //     ctx.fillStyle = '#000000';
             
-            // 位置検出パターン（左上、右上、左下の角）
-            const corners = [[0, 0], [18, 0], [0, 18]];
-            corners.forEach(([x, y]) => {
-                // 外枠
-                ctx.fillRect(offset + x * size, offset + y * size, 7 * size, 7 * size);
-                // 内側を白で塗り潰し
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(offset + (x + 1) * size, offset + (y + 1) * size, 5 * size, 5 * size);
-                // 中心を黒で塗り潰し
-                ctx.fillStyle = '#000000';
-                ctx.fillRect(offset + (x + 2) * size, offset + (y + 2) * size, 3 * size, 3 * size);
-            });
+        //     // 位置検出パターン（左上、右上、左下の角）
+        //     const corners = [[0, 0], [18, 0], [0, 18]];
+        //     corners.forEach(([x, y]) => {
+        //         // 外枠
+        //         ctx.fillRect(offset + x * size, offset + y * size, 7 * size, 7 * size);
+        //         // 内側を白で塗り潰し
+        //         ctx.fillStyle = '#ffffff';
+        //         ctx.fillRect(offset + (x + 1) * size, offset + (y + 1) * size, 5 * size, 5 * size);
+        //         // 中心を黒で塗り潰し
+        //         ctx.fillStyle = '#000000';
+        //         ctx.fillRect(offset + (x + 2) * size, offset + (y + 2) * size, 3 * size, 3 * size);
+        //     });
             
-            // データパターン
-            for (let i = 0; i < modules; i++) {
-                for (let j = 0; j < modules; j++) {
-                    // 位置検出パターンの領域をスキップ
-                    if ((i < 9 && j < 9) || (i < 9 && j >= 16) || (i >= 16 && j < 9)) {
-                        continue;
-                    }
+        //     // データパターン
+        //     for (let i = 0; i < modules; i++) {
+        //         for (let j = 0; j < modules; j++) {
+        //             // 位置検出パターンの領域をスキップ
+        //             if ((i < 9 && j < 9) || (i < 9 && j >= 16) || (i >= 16 && j < 9)) {
+        //                 continue;
+        //             }
                     
-                    if (pseudoRandom() > 0.5) {
-                        ctx.fillRect(offset + i * size, offset + j * size, size, size);
-                    }
-                }
-            }
-        }
+        //             if (pseudoRandom() > 0.5) {
+        //                 ctx.fillRect(offset + i * size, offset + j * size, size, size);
+        //             }
+        //         }
+        //     }
+        // }
         
         // 食堂の地図を描画
         function drawLocationMap(location) {
