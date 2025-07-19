@@ -292,6 +292,28 @@
             <button class="btn btn-success nfc-button" onclick="showMeetup()">
                 📱 席に着いたらNFCタグにタッチ
             </button>
+
+            <div class="nfc-icon">📱</div>
+            <h1>NFCタグリーダー</h1>
+            
+            <button id="scanButton" class="scan-button">
+                NFCタグをスキャン
+            </button>
+            
+            <div id="status" class="status info">
+                NFCタグを読み取る準備ができています
+            </div>
+            
+            <div id="dataDisplay" class="data-display" style="display: none;">
+                <h3>読み取りデータ:</h3>
+                <div id="dataContent" class="data-content"></div>
+            </div>
+    
+            <div class="support-info">
+                <strong>対応ブラウザ:</strong><br>
+                • Android: Chrome 89+<br>
+                • iPhone: iOS 13+ Safari (Core NFC対応)
+            </div>
             
             <button class="btn btn-secondary" onclick="leaveRoom()">
                 グループから退出
