@@ -389,8 +389,8 @@
         <!-- グループ作成画面 -->
         <div id="create-room-screen" class="screen active">
             <div class="header">
-                <h1>🍽️ 社食合流システム</h1>
-                <p class="subtitle">グループ参加画面</p>
+                <h1>🍽️ 社食 🍽️<br>合流システム</h1>
+                <p class="subtitle">みんなで食事を楽しもう!</p>
             </div>
             
             <div class="form-group">
@@ -454,7 +454,7 @@
                 </div>
 
                 <div class="map-container">
-                    <canvas id="location-map" width="300" height="200"></canvas>
+                    <canvas id="location-map" width="240" height="200"></canvas>
                 </div>
                 <p style="margin-top: 10px;">上記の場所で合流してください</p>
             </div>
@@ -530,9 +530,14 @@
                 code: roomCode,
                 creator: creatorName,
                 members: [{
-                    name: creatorName,
+                    name: "○○さん",
                     ready: false,
                     isCreator: true
+                },
+                {
+                    name: creatorName,
+                    ready: false,
+                    isCreator: false
                 }],
                 location: null,
                 created: new Date()
@@ -541,7 +546,7 @@
             appState.rooms[roomCode] = room;
             appState.currentRoom = roomCode;
             appState.currentUser = creatorName;
-            appState.isCreator = true;
+            // appState.isCreator = true;
             
             // updateWaitingScreen();
             //showNotification('グループが作成されました！');
@@ -624,9 +629,8 @@
                     }
                 } catch (error) {
                     this.handleError(error);
-                } finally {
                     this.isScanning = false;
-                    this.scanButton.disabled = false;
+                    this.scanButton.disabled = True;
                     this.scanButton.innerHTML = '席についたらNFCタグをスキャン';
                     this.scanButton.classList.remove('pulse');
                 }
@@ -671,6 +675,7 @@
                 if (userInput) {
                     this.displayData(userInput, 'text');
                     this.showStatus('テーブル番号を読み取りました', 'success');
+                    this.scanButton.style.display = 'none';
                 } else {
                     this.showStatus('入力がキャンセルされました', 'warning');
                 }
@@ -695,6 +700,7 @@
 
                 if (allData.length > 0) {
                     this.displayData(allData[0].data, allData[0].recordType);
+                    this.scanButton.style.display = 'none';
                 } else {
                     this.showStatus('データが見つかりませんでした', 'warning');
                 }
@@ -762,7 +768,7 @@
                 memberElement.innerHTML = `
                     <span>${member.name} ${member.isCreator ? '' : ''}</span>
                     <span class="status ready">
-                        ${member.ready ? '✅ 席確保済み' : '🚶 ✅ 席確保済み'}
+                        ${member.ready ? '✅ 席確保済み' : '🚶向かい中'}
                     </span>
                 `;
                 finalMembersList.appendChild(memberElement);
@@ -867,20 +873,21 @@
             
             // エリア区分線
             ctx.beginPath();
-            ctx.moveTo(150, 0);
-            ctx.lineTo(150, 200);
+            ctx.moveTo(120, 0);
+            ctx.lineTo(120, 200);
             ctx.moveTo(0, 100);
             ctx.lineTo(300, 100);
             ctx.stroke();
-            
+  
             // エリアラベル
             ctx.fillStyle = '#666';
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('A', 75, 50);
-            ctx.fillText('B', 225, 50);
-            ctx.fillText('C', 75, 150);
-            ctx.fillText('D', 225, 150);
+            ctx.fillText('A', 60, 50);
+            ctx.fillText('B', 180, 50);
+            ctx.fillText('C', 60, 150);
+            ctx.fillText('D', 180, 150);
+
             
             // テーブルを描画
             ctx.fillStyle = '#e9ecef';
