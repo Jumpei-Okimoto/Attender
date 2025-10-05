@@ -530,7 +530,7 @@
                 code: roomCode,
                 creator: creatorName,
                 members: [{
-                    name: "○○さん",
+                    name: "松本",
                     ready: false,
                     isCreator: true
                 },
@@ -862,10 +862,14 @@
         function drawLocationMap(location) {
             const canvas = document.getElementById('location-map');
             const ctx = canvas.getContext('2d');
-            
+
             // キャンバスをクリア
             ctx.fillStyle = '#f8f9fa';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Aエリアだけ背景色を変更
+            ctx.fillStyle = '#FADBDA';  // 薄い赤
+            ctx.fillRect(0, 0, 120, 100);
             
             // 食堂のレイアウトを描画
             ctx.strokeStyle = '#333';
@@ -919,8 +923,8 @@
             ];
             
             tables.forEach(table => {
-                const isTarget = location.includes(table.label);
-                
+                const isTarget = location && location.includes(table.label);
+
                 // テーブルの色を設定
                 if (isTarget) {
                     ctx.fillStyle = '#28a745';
